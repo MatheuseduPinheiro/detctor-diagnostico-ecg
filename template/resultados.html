@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='resultados.css') }}"
+    >
+
+    <title>
+        Resultado da Classificação
+    </title>
+
+</head>
+
+
+<body
+    id="paginaResultado"
+    class="pagina-resultado"
+>
+
+
+<header
+    id="cabecalhoResultado"
+    class="cabecalho-resultado"
+>
+
+    <div class="container">
+
+        <h1
+            id="tituloResultado"
+            class="titulo-resultado"
+        >
+            Resultado da Classificação
+        </h1>
+
+        <p
+            id="subtituloResultado"
+            class="subtitulo-resultado"
+        >
+            Análise automatizada realizada pelo modelo LightGBM.
+        </p>
+
+    </div>
+
+</header>
+
+
+<main
+    id="conteudoResultado"
+    class="conteudo-resultado"
+>
+
+<div class="container">
+
+
+    <!-- =====================================================
+         RESULTADO PRINCIPAL
+    ====================================================== -->
+
+    <section
+        id="secaoResultadoPrincipal"
+        class="card card-resultado-principal"
+    >
+
+        <h2 class="card-titulo">
+            Classificação sugerida pelo modelo
+        </h2>
+
+
+        <div
+            id="campoClassePredita"
+            class="resultado-principal"
+        >
+
+            <span class="resultado-label">
+                Resultado
+            </span>
+
+            <strong
+                id="valorClassePredita"
+                class="resultado-classe"
+            >
+                {{ classe }}
+            </strong>
+
+        </div>
+
+
+        <div
+            id="campoConfianca"
+            class="resultado-confianca"
+        >
+
+            <span class="resultado-label">
+                Probabilidade atribuída pelo modelo
+            </span>
+
+            <strong
+                id="valorConfianca"
+                class="resultado-confianca-valor"
+            >
+                {{ "%.2f"|format(confianca) }}%
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROBABILIDADES
+    ====================================================== -->
+
+    <section
+        id="secaoProbabilidades"
+        class="card card-probabilidades"
+    >
+
+        <h2 class="card-titulo">
+            Probabilidade por classe
+        </h2>
+
+        <p class="card-descricao">
+            Distribuição das probabilidades calculadas pelo modelo
+            para cada possibilidade de classificação.
+        </p>
+
+
+        <div class="probabilidades-lista">
+
+            {% for nome_classe, probabilidade in probabilidades.items() %}
+
+                <div class="probabilidade-item">
+
+                    <span class="probabilidade-classe">
+                        {{ nome_classe }}
+                    </span>
+
+                    <strong class="probabilidade-valor">
+                        {{ "%.2f"|format(probabilidade) }}%
+                    </strong>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MÉTRICAS GLOBAIS
+    ====================================================== -->
+
+    <section
+        id="secaoMetricasGlobais"
+        class="card card-metricas-globais"
+    >
+
+        <h2 class="card-titulo">
+            Desempenho global do modelo
+        </h2>
+
+        <p class="card-descricao">
+            Indicadores obtidos durante a avaliação do modelo
+            no conjunto de teste.
+        </p>
+
+
+        <div class="metricas-grid">
+
+
+            <div
+                id="campoAccuracy"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    Acurácia
+                </span>
+
+                <strong
+                    id="valorAccuracy"
+                    class="metrica-global-valor"
+                >
+                    {{ accuracy }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Proporção total de classificações corretas realizadas
+                    pelo modelo.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoPrecision"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    Precisão
+                </span>
+
+                <strong
+                    id="valorPrecision"
+                    class="metrica-global-valor"
+                >
+                    {{ precision }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Proporção das classificações positivas que foram
+                    corretamente atribuídas.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoRecall"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    Recall
+                </span>
+
+                <strong
+                    id="valorRecall"
+                    class="metrica-global-valor"
+                >
+                    {{ recall }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Capacidade média do modelo de recuperar corretamente
+                    as amostras de cada classe.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoF1Score"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    F1-Score
+                </span>
+
+                <strong
+                    id="valorF1Score"
+                    class="metrica-global-valor"
+                >
+                    {{ f1_score }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Equilíbrio entre precisão e capacidade de detecção
+                    do modelo.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoBalancedAccuracy"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    Acurácia balanceada
+                </span>
+
+                <strong
+                    id="valorBalancedAccuracy"
+                    class="metrica-global-valor"
+                >
+                    {{ balanced_accuracy }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Acurácia ajustada para considerar igualmente
+                    as diferentes classes.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoMCC"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    MCC
+                </span>
+
+                <strong
+                    id="valorMCC"
+                    class="metrica-global-valor"
+                >
+                    {{ mcc }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Correlação global entre classificações previstas
+                    e valores reais.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoCohenKappa"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    Cohen's Kappa
+                </span>
+
+                <strong
+                    id="valorCohenKappa"
+                    class="metrica-global-valor"
+                >
+                    {{ cohen_kappa }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Grau de concordância entre previsão e referência,
+                    descontando concordâncias ao acaso.
+                </p>
+
+            </div>
+
+
+            <div
+                id="campoMeanAUC"
+                class="metrica-global-item"
+            >
+
+                <span class="metrica-global-label">
+                    AUC média
+                </span>
+
+                <strong
+                    id="valorMeanAUC"
+                    class="metrica-global-valor"
+                >
+                    {{ mean_auc }}
+                </strong>
+
+                <p class="metrica-global-descricao">
+                    Capacidade média de discriminação do modelo
+                    entre as classes.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MÉTRICAS POR CLASSE
+    ====================================================== -->
+
+    <section
+        id="secaoMetricasPorClasse"
+        class="card card-metricas-por-classe"
+    >
+
+        <h2 class="card-titulo">
+            Desempenho por classe
+        </h2>
+
+        <p class="card-descricao">
+            Análise individual do desempenho do modelo para cada
+            categoria de ECG.
+        </p>
+
+
+        <div
+            id="containerMetricasClasses"
+            class="metricas-classes-lista"
+        >
+
+            {% for nome_classe, metricas in metricas_por_classe.items() %}
+
+                <article
+                    class="classe-metrica-card"
+                >
+
+                    <h3 class="classe-metrica-titulo">
+                        {{ nome_classe }}
+                    </h3>
+
+
+                    <div class="classe-metricas-grid">
+
+
+                        <div class="metrica-clinica-item">
+
+                            <span class="metrica-clinica-label">
+                                Sensibilidade
+                            </span>
+
+                            <strong class="metrica-clinica-valor">
+                                {{ metricas["sensibilidade"] }}
+                            </strong>
+
+                            <p class="metrica-clinica-descricao">
+                                Capacidade de identificar corretamente
+                                os casos pertencentes a esta classe.
+                            </p>
+
+                        </div>
+
+
+                        <div class="metrica-clinica-item">
+
+                            <span class="metrica-clinica-label">
+                                Especificidade
+                            </span>
+
+                            <strong class="metrica-clinica-valor">
+                                {{ metricas["especificidade"] }}
+                            </strong>
+
+                            <p class="metrica-clinica-descricao">
+                                Capacidade de reconhecer corretamente
+                                os casos que não pertencem a esta classe.
+                            </p>
+
+                        </div>
+
+
+                        <div class="metrica-clinica-item">
+
+                            <span class="metrica-clinica-label">
+                                Valor preditivo negativo
+                            </span>
+
+                            <strong class="metrica-clinica-valor">
+                                {{ metricas["npv"] }}
+                            </strong>
+
+                            <p class="metrica-clinica-descricao">
+                                Proporção de resultados negativos
+                                corretamente classificados.
+                            </p>
+
+                        </div>
+
+
+                        <div class="metrica-clinica-item">
+
+                            <span class="metrica-clinica-label">
+                                AUC
+                            </span>
+
+                            <strong class="metrica-clinica-valor">
+                                {{ metricas["auc"] }}
+                            </strong>
+
+                            <p class="metrica-clinica-descricao">
+                                Capacidade do modelo de distinguir
+                                esta classe das demais.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+   <!-- =====================================================
+     MATRIZ DE CONFUSÃO
+====================================================== -->
+
+<section
+    id="secaoMatrizConfusao"
+    class="card card-grafico"
+>
+
+    <h2 class="card-titulo">
+        Matriz de confusão
+    </h2>
+
+    <p class="card-descricao">
+        Comparação entre as classes reais e as classes previstas
+        pelo modelo no conjunto de teste.
+    </p>
+
+
+    {% if grafico_matriz_confusao %}
+
+        <div class="grafico-container">
+
+            <img
+                id="graficoMatrizConfusao"
+                class="grafico-imagem"
+                src="{{ grafico_matriz_confusao }}"
+                alt="Matriz de confusão"
+            >
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         INTERPRETAÇÃO DA MATRIZ
+    ================================================== -->
+
+    <div
+        id="interpretacaoMatrizConfusao"
+        class="interpretacao-matriz"
+    >
+
+        <div class="interpretacao-matriz-cabecalho">
+
+            <h3 class="interpretacao-matriz-titulo">
+                Como interpretar esta matriz?
+            </h3>
+
+            <p class="interpretacao-matriz-texto">
+                Considerando como referência a classificação
+                <strong class="classe-escolhida-matriz">
+                    {{ classe }}
+                </strong>,
+                os resultados do conjunto de teste podem ser
+                interpretados da seguinte forma:
+            </p>
+
+        </div>
+
+
+        <div class="interpretacao-matriz-grid">
+
+
+            <!-- VERDADEIROS POSITIVOS -->
+
+            <div
+                id="matrizVerdadeirosPositivos"
+                class="interpretacao-matriz-item interpretacao-matriz-escolhido"
+            >
+
+                <span class="interpretacao-matriz-label">
+                    Verdadeiros positivos
+                </span>
+
+                <strong class="interpretacao-matriz-valor">
+                    {{ interpretacao_matriz["verdadeiros_positivos"] }}
+                </strong>
+
+                <p class="interpretacao-matriz-descricao">
+                    Casos que realmente eram
+                    <strong>{{ classe }}</strong>
+                    e foram corretamente classificados pelo modelo
+                    como <strong>{{ classe }}</strong>.
+                </p>
+
+            </div>
+
+
+            <!-- FALSOS NEGATIVOS -->
+
+            <div
+                id="matrizFalsosNegativos"
+                class="interpretacao-matriz-item"
+            >
+
+                <span class="interpretacao-matriz-label">
+                    Falsos negativos
+                </span>
+
+                <strong class="interpretacao-matriz-valor">
+                    {{ interpretacao_matriz["falsos_negativos"] }}
+                </strong>
+
+                <p class="interpretacao-matriz-descricao">
+                    Casos que realmente eram
+                    <strong>{{ classe }}</strong>,
+                    mas foram classificados pelo modelo
+                    como outra categoria.
+                </p>
+
+            </div>
+
+
+            <!-- FALSOS POSITIVOS -->
+
+            <div
+                id="matrizFalsosPositivos"
+                class="interpretacao-matriz-item"
+            >
+
+                <span class="interpretacao-matriz-label">
+                    Falsos positivos
+                </span>
+
+                <strong class="interpretacao-matriz-valor">
+                    {{ interpretacao_matriz["falsos_positivos"] }}
+                </strong>
+
+                <p class="interpretacao-matriz-descricao">
+                    Casos que pertenciam a outras categorias,
+                    mas foram classificados incorretamente
+                    pelo modelo como <strong>{{ classe }}</strong>.
+                </p>
+
+            </div>
+
+
+            <!-- VERDADEIROS NEGATIVOS -->
+
+            <div
+                id="matrizVerdadeirosNegativos"
+                class="interpretacao-matriz-item"
+            >
+
+                <span class="interpretacao-matriz-label">
+                    Verdadeiros negativos
+                </span>
+
+                <strong class="interpretacao-matriz-valor">
+                    {{ interpretacao_matriz["verdadeiros_negativos"] }}
+                </strong>
+
+                <p class="interpretacao-matriz-descricao">
+                    Casos que não eram
+                    <strong>{{ classe }}</strong>
+                    e que o modelo corretamente não classificou
+                    como <strong>{{ classe }}</strong>.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+    <!-- =====================================================
+         CURVA ROC
+    ====================================================== -->
+
+    <section
+        id="secaoCurvaROC"
+        class="card card-grafico"
+    >
+
+        <h2 class="card-titulo">
+            Curva ROC
+        </h2>
+
+        <p class="card-descricao">
+            Avaliação da capacidade de discriminação do modelo
+            para cada uma das classes.
+        </p>
+
+
+        {% if grafico_curva_roc %}
+
+            <div class="grafico-container">
+
+                <img
+                    id="graficoCurvaROC"
+                    class="grafico-imagem"
+                    src="{{ grafico_curva_roc }}"
+                    alt="Curva ROC"
+                >
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =====================================================
+         DATASET
+    ====================================================== -->
+
+    <section
+        id="secaoDataset"
+        class="card card-detalhes-tecnicos"
+    >
+
+        <h2 class="card-titulo">
+            Informações do conjunto de dados
+        </h2>
+
+
+        <div class="dataset-grid">
+
+
+            <div
+                id="campoTotalAmostras"
+                class="dataset-item"
+            >
+
+                <span class="dataset-label">
+                    Total de amostras
+                </span>
+
+                <strong class="dataset-valor">
+                    {{ total_amostras }}
+                </strong>
+
+            </div>
+
+
+            <div
+                id="campoTreino"
+                class="dataset-item"
+            >
+
+                <span class="dataset-label">
+                    Treinamento
+                </span>
+
+                <strong class="dataset-valor">
+                    {{ treino_quantidade }}
+                </strong>
+
+                <span class="dataset-percentual">
+                    {{ treino_percentual }}%
+                </span>
+
+            </div>
+
+
+            <div
+                id="campoValidacao"
+                class="dataset-item"
+            >
+
+                <span class="dataset-label">
+                    Validação
+                </span>
+
+                <strong class="dataset-valor">
+                    {{ validacao_quantidade }}
+                </strong>
+
+                <span class="dataset-percentual">
+                    {{ validacao_percentual }}%
+                </span>
+
+            </div>
+
+
+            <div
+                id="campoTeste"
+                class="dataset-item"
+            >
+
+                <span class="dataset-label">
+                    Teste
+                </span>
+
+                <strong class="dataset-valor">
+                    {{ teste_quantidade }}
+                </strong>
+
+                <span class="dataset-percentual">
+                    {{ teste_percentual }}%
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRÉ-PROCESSAMENTO
+    ====================================================== -->
+
+    <section
+        id="secaoPreProcessamento"
+        class="card card-detalhes-tecnicos"
+    >
+
+        <h2 class="card-titulo">
+            Pré-processamento
+        </h2>
+
+
+        <div class="preprocessamento-grid">
+
+
+            <div class="preprocessamento-item">
+
+                <span class="preprocessamento-label">
+                    Dimensão de entrada
+                </span>
+
+                <strong
+                    id="valorTamanhoImagem"
+                    class="preprocessamento-valor"
+                >
+                    {{ image_width }} × {{ image_height }} pixels
+                </strong>
+
+            </div>
+
+
+            <div class="preprocessamento-item">
+
+                <span class="preprocessamento-label">
+                    Escala de cinza
+                </span>
+
+                <strong
+                    id="valorEscalaCinza"
+                    class="preprocessamento-valor"
+                >
+                    {% if grayscale %}
+                        Sim
+                    {% else %}
+                        Não
+                    {% endif %}
+                </strong>
+
+            </div>
+
+
+            <div class="preprocessamento-item">
+
+                <span class="preprocessamento-label">
+                    Normalização dos pixels
+                </span>
+
+                <strong
+                    id="valorNormalizacao"
+                    class="preprocessamento-valor"
+                >
+                    {{ normalizacao_pixels }}
+                </strong>
+
+            </div>
+
+
+            <div class="preprocessamento-item">
+
+                <span class="preprocessamento-label">
+                    Vetorização da imagem
+                </span>
+
+                <strong
+                    id="valorFlatten"
+                    class="preprocessamento-valor"
+                >
+                    {% if flatten %}
+                        Aplicada
+                    {% else %}
+                        Não aplicada
+                    {% endif %}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         AVISO
+    ====================================================== -->
+
+    <section
+        id="secaoAviso"
+        class="aviso-clinico"
+    >
+
+        <strong class="aviso-clinico-titulo">
+            Observação
+        </strong>
+
+        <p class="aviso-clinico-texto">
+            A saída apresentada corresponde ao resultado de um modelo
+            computacional de classificação e deve ser analisada em
+            conjunto com o exame original e a avaliação profissional.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         AÇÕES
+    ====================================================== -->
+
+    <div class="acoes-resultado">
+
+        <a
+            id="botaoNovaAnalise"
+            class="botao botao-principal"
+            href="{{ url_for('app.home') }}"
+        >
+            Analisar outra imagem
+        </a>
+
+    </div>
+
+
+</div>
+
+</main>
+
+
+<footer class="rodape-principal">
+
+    <div class="container">
+
+        <p class="rodape-texto">
+            Classificador de imagens de ECG com LightGBM
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1118 @@
+/* ============================================================
+   RESET
+============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   BODY
+============================================================ */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+    min-height: 100vh;
+}
+
+.pagina-resultado {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* ============================================================
+   CONTAINER
+============================================================ */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   CABEÇALHO
+============================================================ */
+
+.cabecalho-resultado {
+    background: #ffffff;
+    border-bottom: 1px solid #d9dee5;
+    padding: 32px 0;
+}
+
+.cabecalho-conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.titulo-resultado {
+    font-size: 32px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.subtitulo-resultado {
+    font-size: 16px;
+    color: #667085;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL
+============================================================ */
+
+.conteudo-resultado {
+    flex: 1;
+    padding: 40px 0;
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e1e5ea;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 24px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.card-cabecalho {
+    margin-bottom: 20px;
+}
+
+.card-titulo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #172033;
+    margin-bottom: 6px;
+}
+
+.card-descricao {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #667085;
+}
+
+
+/* ============================================================
+   RESULTADO PRINCIPAL
+============================================================ */
+
+.card-resultado-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.diagnostico-resultado {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 22px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.diagnostico-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #667085;
+}
+
+.diagnostico-classe {
+    font-size: 28px;
+    font-weight: 700;
+    color: #172033;
+}
+
+
+/* ============================================================
+   CONFIANÇA
+============================================================ */
+
+.confianca-resultado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px 20px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.confianca-label {
+    font-size: 15px;
+    color: #475467;
+}
+
+.confianca-valor {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1d4ed8;
+}
+
+
+/* ============================================================
+   PROBABILIDADES
+============================================================ */
+
+.card-probabilidades {
+    width: 100%;
+}
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabela-probabilidades,
+.tabela-metricas {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-cabecalho {
+    background: #f8fafc;
+}
+
+.tabela-coluna {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+    color: #344054;
+    border-bottom: 1px solid #d9dee5;
+}
+
+.tabela-celula {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #475467;
+    border-bottom: 1px solid #eef1f4;
+}
+
+.tabela-linha:last-child .tabela-celula {
+    border-bottom: none;
+}
+
+.tabela-probabilidade {
+    font-weight: 700;
+    color: #172033;
+}
+
+
+/* ============================================================
+   MODELO
+============================================================ */
+
+.card-modelo {
+    width: 100%;
+}
+
+.informacao-modelo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 18px 20px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.modelo-label {
+    color: #667085;
+    font-size: 14px;
+}
+
+.modelo-nome {
+    font-size: 18px;
+    color: #172033;
+}
+
+
+/* ============================================================
+   INFORMAÇÕES DO PRÉ-PROCESSAMENTO
+============================================================ */
+
+.card-preprocessamento {
+    width: 100%;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid #eef1f4;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 14px;
+    color: #667085;
+}
+
+.info-valor {
+    font-size: 14px;
+    font-weight: 600;
+    color: #172033;
+}
+
+
+/* ============================================================
+   DATASET
+============================================================ */
+
+.card-dataset {
+    width: 100%;
+}
+
+.dataset-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+}
+
+.dataset-item {
+    padding: 18px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.dataset-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    color: #667085;
+}
+
+.dataset-valor {
+    display: block;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+/* ============================================================
+   MÉTRICAS GLOBAIS
+============================================================ */
+
+.card-metricas {
+    width: 100%;
+}
+
+.metricas-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+}
+
+.metrica-item {
+    padding: 18px;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.metrica-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+
+    color: #667085;
+}
+
+.metrica-valor {
+    display: block;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+/* ============================================================
+   MÉTRICAS POR CLASSE
+============================================================ */
+
+.card-metricas-por-classe {
+    width: 100%;
+}
+
+
+/* ============================================================
+   LISTA DAS QUATRO CLASSES
+============================================================ */
+
+.metricas-classes-lista {
+    display: flex;
+    flex-direction: column;
+
+    gap: 26px;
+
+    margin-top: 24px;
+}
+
+
+/* ============================================================
+   CARD INDIVIDUAL DA CLASSE
+============================================================ */
+
+.classe-metrica-card {
+    width: 100%;
+
+    padding: 24px;
+
+    background: #f8fafc;
+
+    border:
+        1px solid
+        #dfe5ec;
+
+    border-radius: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ============================================================
+   TÍTULO DA CLASSE
+============================================================ */
+
+.classe-metrica-titulo {
+    margin-bottom: 20px;
+
+    padding-bottom: 14px;
+
+    border-bottom:
+        1px solid
+        #e2e8f0;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+/* ============================================================
+   GRID DAS MÉTRICAS INTERNAS
+============================================================ */
+
+.classe-metricas-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* ============================================================
+   MÉTRICA INDIVIDUAL
+============================================================ */
+
+.metrica-clinica-item {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    min-height: 135px;
+
+    padding: 18px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    border-radius: 10px;
+}
+
+.metrica-clinica-label {
+    display: block;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #475467;
+}
+
+.metrica-clinica-valor {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #172033;
+}
+
+.metrica-clinica-descricao {
+    margin-top: auto;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    color: #667085;
+}
+
+
+/* ============================================================
+   CLASSE ESCOLHIDA PELO MODELO
+   MANIPULAÇÃO DO DOM
+============================================================ */
+
+.classe-metrica-selecionada {
+    background: #f0fdf4;
+
+    border:
+        2px solid
+        #22c55e;
+
+    box-shadow:
+        0 4px 14px
+        rgba(34, 197, 94, 0.12);
+}
+
+.classe-metrica-selecionada
+.classe-metrica-titulo {
+    color: #15803d;
+
+    border-bottom-color:
+        #bbf7d0;
+}
+
+.classe-metrica-selecionada
+.metrica-clinica-label {
+    color: #15803d;
+}
+
+.classe-metrica-selecionada
+.metrica-clinica-valor {
+    color: #15803d;
+}
+
+
+/* ============================================================
+   CLASSES ADICIONADAS VIA JAVASCRIPT
+============================================================ */
+
+.classe-metrica-titulo-selecionado {
+    color: #15803d;
+}
+
+.metrica-clinica-label-selecionada {
+    color: #15803d;
+}
+
+.metrica-clinica-valor-selecionada {
+    color: #15803d;
+}
+
+.classe-metrica-nao-selecionada {
+    background: #f8fafc;
+}
+
+
+/* ============================================================
+   MARCADOR DA CLASSE SELECIONADA
+============================================================ */
+
+.classe-metrica-marcador {
+    display: inline-block;
+
+    width: fit-content;
+
+    margin-top: -6px;
+    margin-bottom: 18px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: #dcfce7;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #15803d;
+}
+
+
+/* ============================================================
+   AUC
+============================================================ */
+
+.card-auc {
+    width: 100%;
+}
+
+
+/* ============================================================
+   MATRIZ DE CONFUSÃO
+============================================================ */
+
+.grafico-container {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
+}
+
+.grafico-imagem {
+    display: block;
+
+    width: 100%;
+    max-width: 850px;
+
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+/* ============================================================
+   INTERPRETAÇÃO DA MATRIZ DE CONFUSÃO
+============================================================ */
+
+.interpretacao-matriz {
+    margin-top: 30px;
+
+    padding-top: 24px;
+
+    border-top:
+        1px solid
+        #e2e8f0;
+}
+
+.interpretacao-matriz-cabecalho {
+    margin-bottom: 20px;
+}
+
+.interpretacao-matriz-titulo {
+    font-size: 19px;
+
+    color: #172033;
+
+    margin-bottom: 8px;
+}
+
+.interpretacao-matriz-texto {
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: #667085;
+}
+
+.classe-escolhida-matriz {
+    color: #15803d;
+}
+
+.classe-escolhida-matriz-ativa {
+    color: #15803d;
+    font-weight: 700;
+}
+
+.interpretacao-matriz-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.interpretacao-matriz-item {
+    padding: 18px;
+
+    background: #f8fafc;
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    border-radius: 10px;
+}
+
+.interpretacao-matriz-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #475467;
+}
+
+.interpretacao-matriz-valor {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    color: #172033;
+}
+
+.interpretacao-matriz-descricao {
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    color: #667085;
+}
+
+
+/* ============================================================
+   VERDADEIROS POSITIVOS DESTACADOS
+============================================================ */
+
+.interpretacao-matriz-escolhido {
+    background: #f0fdf4;
+
+    border-color:
+        #86efac;
+}
+
+.interpretacao-matriz-escolhido
+.interpretacao-matriz-label {
+    color: #15803d;
+}
+
+.interpretacao-matriz-escolhido
+.interpretacao-matriz-valor {
+    color: #15803d;
+}
+
+
+/* ============================================================
+   AVISO CLÍNICO
+============================================================ */
+
+.aviso-clinico {
+    padding: 20px;
+
+    margin-bottom: 24px;
+
+    background: #fffaf0;
+
+    border:
+        1px solid
+        #f0d9a5;
+
+    border-radius: 10px;
+}
+
+.aviso-clinico-titulo {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 15px;
+
+    color: #553c15;
+}
+
+.aviso-clinico-texto {
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: #6b531c;
+}
+
+
+/* ============================================================
+   AÇÕES
+============================================================ */
+
+.acoes-resultado {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 8px;
+    margin-bottom: 30px;
+}
+
+.botao {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    padding: 0 24px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.botao-principal {
+    background: #1d4ed8;
+
+    color: #ffffff;
+}
+
+.botao-principal:hover {
+    background: #1e40af;
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* ============================================================
+   RODAPÉ
+============================================================ */
+
+.rodape-principal {
+    background: #ffffff;
+
+    border-top:
+        1px solid
+        #d9dee5;
+
+    padding: 20px 0;
+}
+
+.rodape-texto {
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #7b8794;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE - TABLETS
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .container {
+        width: 92%;
+    }
+
+
+    .metricas-grid,
+    .dataset-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .classe-metricas-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .interpretacao-matriz-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .grafico-imagem {
+        max-width: 100%;
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE - CELULARES
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+    }
+
+
+    .cabecalho-resultado {
+        padding: 24px 0;
+    }
+
+
+    .titulo-resultado {
+        font-size: 26px;
+    }
+
+
+    .subtitulo-resultado {
+        font-size: 14px;
+    }
+
+
+    .conteudo-resultado {
+        padding: 24px 0;
+    }
+
+
+    .card {
+        padding: 20px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .card-titulo {
+        font-size: 20px;
+    }
+
+
+    .diagnostico-classe {
+        font-size: 22px;
+    }
+
+
+    .confianca-resultado {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+
+
+    .confianca-valor {
+        font-size: 22px;
+    }
+
+
+    .metricas-grid,
+    .dataset-grid,
+    .classe-metricas-grid,
+    .interpretacao-matriz-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .classe-metrica-card {
+        padding: 18px;
+    }
+
+
+    .classe-metrica-titulo {
+        font-size: 18px;
+    }
+
+
+    .metrica-clinica-item {
+        min-height: auto;
+
+        padding: 16px;
+    }
+
+
+    .metrica-clinica-valor {
+        font-size: 22px;
+    }
+
+
+    .informacao-modelo {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+
+
+    .info-item {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 6px;
+    }
+
+
+    .tabela-container {
+        overflow-x: auto;
+    }
+
+
+    .tabela-probabilidades,
+    .tabela-metricas {
+        min-width: 540px;
+    }
+
+
+    .grafico-container {
+        overflow-x: auto;
+    }
+
+
+    .interpretacao-matriz {
+        margin-top: 22px;
+
+        padding-top: 18px;
+    }
+
+
+    .acoes-resultado {
+        justify-content: stretch;
+    }
+
+
+    .botao {
+        width: 100%;
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE - CELULARES PEQUENOS
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .container {
+        width: 95%;
+    }
+
+
+    .card {
+        padding: 16px;
+    }
+
+
+    .titulo-resultado {
+        font-size: 23px;
+    }
+
+
+    .card-titulo {
+        font-size: 18px;
+    }
+
+
+    .classe-metrica-card {
+        padding: 15px;
+    }
+
+
+    .metrica-clinica-item {
+        padding: 14px;
+    }
+
+
+    .metrica-clinica-label {
+        font-size: 13px;
+    }
+
+
+    .metrica-clinica-valor {
+        font-size: 20px;
+    }
+
+
+    .metrica-clinica-descricao {
+        font-size: 12px;
+    }
+
+
+    .interpretacao-matriz-item {
+        padding: 14px;
+    }
+
+
+    .interpretacao-matriz-valor {
+        font-size: 22px;
+    }
+
+
+    .interpretacao-matriz-descricao {
+        font-size: 12px;
+    }
+
+}

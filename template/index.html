@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+     <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='app-index.css') }}"
+    >
+
+    <title>
+        Classificação de ECG - LightGBM
+    </title>
+
+</head>
+
+
+<body id="paginaClassificacao" class="pagina-classificacao">
+
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <header id="cabecalhoPrincipal" class="cabecalho-principal">
+
+        <div class="container">
+
+            <div class="cabecalho-conteudo">
+
+                <h1
+                    id="tituloPrincipal"
+                    class="titulo-principal"
+                >
+                    Classificação de ECG
+                </h1>
+
+                <p
+                    id="subtituloPrincipal"
+                    class="subtitulo-principal"
+                >
+                    Classificação de imagens de eletrocardiograma
+                    utilizando o algoritmo LightGBM.
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
+    <main id="conteudoPrincipal" class="conteudo-principal">
+
+        <div class="container">
+
+
+            <!-- =================================================
+                 CARD DE CLASSIFICAÇÃO
+            ================================================== -->
+
+            <section
+                id="secaoClassificacao"
+                class="card card-classificacao"
+            >
+
+
+                <!-- =============================================
+                     CABEÇALHO DO CARD
+                ============================================== -->
+
+                <div class="card-cabecalho">
+
+                    <h2
+                        id="tituloEnvio"
+                        class="card-titulo"
+                    >
+                        Enviar imagem de ECG
+                    </h2>
+
+                    <p class="card-descricao">
+                        Selecione uma imagem nos formatos
+                        PNG, JPG ou JPEG.
+                    </p>
+
+                </div>
+
+
+                <!-- =============================================
+                     MENSAGEM DE ERRO
+                ============================================== -->
+
+                {% if erro %}
+
+                    <div
+                        id="mensagemErro"
+                        class="mensagem mensagem-erro"
+                    >
+
+                        <strong class="mensagem-titulo">
+                            Erro:
+                        </strong>
+
+                        <span class="mensagem-texto">
+                            {{ erro }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- =============================================
+                     FORMULÁRIO
+                ============================================== -->
+
+                <form
+                    id="formularioECG"
+                    class="formulario-ecg"
+                    action="{{ url_for('app.predict') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+
+                    <!-- =========================================
+                         SELEÇÃO DA IMAGEM
+                    ========================================== -->
+
+                    <div
+                        id="campoImagem"
+                        class="campo-formulario campo-imagem"
+                    >
+
+                        <label
+                            for="imagem"
+                            class="campo-label"
+                        >
+                            Selecione uma imagem de ECG
+                        </label>
+
+
+                        <input
+                            type="file"
+                            id="imagem"
+                            class="campo-arquivo"
+                            name="imagem"
+                            accept=".png,.jpg,.jpeg"
+                            required
+                        >
+
+                        <p class="campo-ajuda">
+                            Formatos aceitos: PNG, JPG e JPEG.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         PREVIEW
+                    ========================================== -->
+
+                    <div
+                        id="previewContainer"
+                        class="preview-container"
+                        hidden
+                    >
+
+                        <div class="preview-cabecalho">
+
+                            <h3
+                                id="tituloPreview"
+                                class="preview-titulo"
+                            >
+                                Imagem selecionada
+                            </h3>
+
+                        </div>
+
+
+                        <div class="preview-imagem-container">
+
+                            <img
+                                id="preview"
+                                class="preview-imagem"
+                                alt="Imagem de ECG selecionada"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         AÇÕES
+                    ========================================== -->
+
+                    <div
+                        id="acoesFormulario"
+                        class="formulario-acoes"
+                    >
+
+                        <button
+                            type="submit"
+                            id="botaoAnalisar"
+                            class="botao botao-principal"
+                        >
+                            Analisar ECG
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 INFORMAÇÕES
+            ================================================== -->
+
+            <section
+                id="secaoInformacoes"
+                class="card card-informacoes"
+            >
+
+                <h2 class="card-titulo">
+                    Sobre a classificação
+                </h2>
+
+
+                <p class="card-descricao">
+                    A imagem enviada será processada e analisada
+                    pelo modelo de classificação LightGBM.
+                </p>
+
+
+                <div
+                    id="classesDisponiveis"
+                    class="classes-disponiveis"
+                >
+
+                    <h3 class="classes-titulo">
+                        Classes analisadas
+                    </h3>
+
+
+                    <ul class="classes-lista">
+
+                        <li
+                            id="classeNormal"
+                            class="classe-item"
+                        >
+                            ECG normal
+                        </li>
+
+                        <li
+                            id="classeBatimentoAnormal"
+                            class="classe-item"
+                        >
+                            Batimento cardíaco anormal
+                        </li>
+
+                        <li
+                            id="classeInfarto"
+                            class="classe-item"
+                        >
+                            Infarto do miocárdio
+                        </li>
+
+                        <li
+                            id="classePosInfarto"
+                            class="classe-item"
+                        >
+                            Histórico de infarto do miocárdio
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         RODAPÉ
+    ====================================================== -->
+
+    <footer
+        id="rodapePrincipal"
+        class="rodape-principal"
+    >
+
+        <div class="container">
+
+            <p class="rodape-texto">
+                Classificador de imagens de ECG com LightGBM
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         SOMENTE PREVIEW DA IMAGEM
+    ====================================================== -->
+
+    <script>
+
+        const inputImagem =
+            document.getElementById("imagem");
+
+        const preview =
+            document.getElementById("preview");
+
+        const previewContainer =
+            document.getElementById("previewContainer");
+
+
+        inputImagem.addEventListener(
+            "change",
+            function () {
+
+                const arquivo =
+                    this.files[0];
+
+
+                if (arquivo) {
+
+                    preview.src =
+                        URL.createObjectURL(
+                            arquivo
+                        );
+
+                    previewContainer.hidden =
+                        false;
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

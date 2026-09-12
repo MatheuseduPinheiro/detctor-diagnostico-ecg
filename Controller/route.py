@@ -42,19 +42,16 @@ BASE_DIR = (
     .parent
 )
 
-
 UPLOAD_DIR = (
     BASE_DIR /
     "uploads"
 )
-
 
 MODEL_PATH = (
     BASE_DIR /
     "dump" /
     "LightGBM-model.pkl"
 )
-
 
 UPLOAD_DIR.mkdir(
     parents=True,
@@ -126,11 +123,9 @@ def carregar_pacote():
             f"Modelo não encontrado em: {MODEL_PATH}"
         )
 
-
     pacote = joblib.load(
         MODEL_PATH
     )
-
 
     campos = {
         "modelo",
@@ -138,12 +133,10 @@ def carregar_pacote():
         "classes"
     }
 
-
     ausentes = (
         campos -
         set(pacote.keys())
     )
-
 
     if ausentes:
 
@@ -152,7 +145,6 @@ def carregar_pacote():
             +
             ", ".join(ausentes)
         )
-
 
     return pacote
 
@@ -172,39 +164,32 @@ def processar_imagem(
         cv2.IMREAD_GRAYSCALE
     )
 
-
     if imagem is None:
 
         raise ValueError(
             "Não foi possível ler a imagem enviada."
         )
 
-
     imagem = cv2.resize(
         imagem,
         tuple(image_size)
     )
-
 
     imagem = (
         imagem /
         255.0
     )
 
-
     imagem = imagem.flatten()
-
 
     imagem = imagem.reshape(
         1,
         -1
     )
 
-
     imagem = scaler.transform(
         imagem
     )
-
 
     return imagem
 
@@ -218,7 +203,6 @@ def formatar_percentual(valor):
     if valor is None:
 
         return "Não informado"
-
 
     try:
 
@@ -248,7 +232,6 @@ def formatar_decimal(
 
         return "Não informado"
 
-
     try:
 
         return (
@@ -272,7 +255,6 @@ def figura_para_base64(figura):
 
     buffer = io.BytesIO()
 
-
     figura.savefig(
         buffer,
         format="png",
@@ -280,21 +262,17 @@ def figura_para_base64(figura):
         dpi=130
     )
 
-
     plt.close(
         figura
     )
 
-
     buffer.seek(0)
-
 
     dados = base64.b64encode(
         buffer.getvalue()
     ).decode(
         "utf-8"
     )
-
 
     return (
         "data:image/png;base64,"
@@ -316,7 +294,6 @@ def gerar_grafico_matriz_confusao(
 
         return None
 
-
     try:
 
         matriz = matriz.tolist()
@@ -325,11 +302,9 @@ def gerar_grafico_matriz_confusao(
 
         pass
 
-
     if not matriz:
 
         return None
-
 
     figura, eixo = plt.subplots(
         figsize=(
@@ -338,46 +313,37 @@ def gerar_grafico_matriz_confusao(
         )
     )
 
-
     imagem = eixo.imshow(
         matriz
     )
-
 
     eixo.set_title(
         "Matriz de Confusão"
     )
 
-
     eixo.set_xlabel(
         "Classe predita"
     )
-
 
     eixo.set_ylabel(
         "Classe real"
     )
 
-
     quantidade = len(
         matriz
     )
-
 
     nomes_classes = (
         nomes_classes[:quantidade]
     )
 
-
     eixo.set_xticks(
         range(quantidade)
     )
 
-
     eixo.set_yticks(
         range(quantidade)
     )
-
 
     eixo.set_xticklabels(
         nomes_classes,
@@ -385,11 +351,9 @@ def gerar_grafico_matriz_confusao(
         ha="right"
     )
 
-
     eixo.set_yticklabels(
         nomes_classes
     )
-
 
     for linha in range(
         quantidade
@@ -413,15 +377,12 @@ def gerar_grafico_matriz_confusao(
                 va="center"
             )
 
-
     figura.colorbar(
         imagem,
         ax=eixo
     )
 
-
     figura.tight_layout()
-
 
     return figura_para_base64(
         figura
@@ -444,7 +405,6 @@ def obter_campo(
 
         return None
 
-
     for nome in nomes:
 
         if nome in dados:
@@ -452,7 +412,6 @@ def obter_campo(
             return dados[
                 nome
             ]
-
 
     return None
 
@@ -472,7 +431,6 @@ def gerar_grafico_curva_roc(
 
         return None
 
-
     figura, eixo = plt.subplots(
         figsize=(
             8,
@@ -480,9 +438,7 @@ def gerar_grafico_curva_roc(
         )
     )
 
-
     encontrou = False
-
 
     for classe, dados in curvas_roc.items():
 
@@ -493,7 +449,6 @@ def gerar_grafico_curva_roc(
 
             continue
 
-
         fpr = obter_campo(
             dados,
             [
@@ -501,7 +456,6 @@ def gerar_grafico_curva_roc(
                 "FPR"
             ]
         )
-
 
         tpr = obter_campo(
             dados,
@@ -511,7 +465,6 @@ def gerar_grafico_curva_roc(
             ]
         )
 
-
         auc = obter_campo(
             dados,
             [
@@ -520,7 +473,6 @@ def gerar_grafico_curva_roc(
             ]
         )
 
-
         if (
             fpr is None
             or tpr is None
@@ -528,11 +480,9 @@ def gerar_grafico_curva_roc(
 
             continue
 
-
         classe_exibicao = nome_amigavel(
             classe
         )
-
 
         if auc is not None:
 
@@ -545,16 +495,13 @@ def gerar_grafico_curva_roc(
 
             legenda = classe_exibicao
 
-
         eixo.plot(
             fpr,
             tpr,
             label=legenda
         )
 
-
         encontrou = True
-
 
     if not encontrou:
 
@@ -563,7 +510,6 @@ def gerar_grafico_curva_roc(
         )
 
         return None
-
 
     eixo.plot(
         [
@@ -578,46 +524,37 @@ def gerar_grafico_curva_roc(
         label="Referência"
     )
 
-
     eixo.set_title(
         "Curva ROC"
     )
-
 
     eixo.set_xlabel(
         "Taxa de falsos positivos"
     )
 
-
     eixo.set_ylabel(
         "Taxa de verdadeiros positivos"
     )
-
 
     eixo.set_xlim(
         0,
         1
     )
 
-
     eixo.set_ylim(
         0,
         1.02
     )
 
-
     eixo.legend(
         loc="lower right"
     )
-
 
     eixo.grid(
         alpha=0.25
     )
 
-
     figura.tight_layout()
-
 
     return figura_para_base64(
         figura
@@ -668,7 +605,6 @@ def home():
 )
 def predict():
 
-
     # --------------------------------------------------------
     # ACESSO DIRETO PELO NAVEGADOR
     # --------------------------------------------------------
@@ -681,9 +617,7 @@ def predict():
             )
         )
 
-
     caminho_temporario = None
-
 
     try:
 
@@ -698,11 +632,9 @@ def predict():
                 erro="Nenhuma imagem foi enviada."
             ), 400
 
-
         arquivo = request.files[
             "imagem"
         ]
-
 
         if arquivo.filename == "":
 
@@ -710,7 +642,6 @@ def predict():
                 "index.html",
                 erro="Nenhuma imagem foi selecionada."
             ), 400
-
 
         if not extensao_permitida(
             arquivo.filename
@@ -731,21 +662,17 @@ def predict():
 
         pacote = carregar_pacote()
 
-
         modelo = pacote[
             "modelo"
         ]
-
 
         scaler = pacote[
             "scaler"
         ]
 
-
         classes = pacote[
             "classes"
         ]
-
 
         image_size = tuple(
             pacote.get(
@@ -756,7 +683,6 @@ def predict():
                 )
             )
         )
-
 
         id_to_class = {
 
@@ -777,7 +703,6 @@ def predict():
             arquivo.filename
         ).suffix.lower()
 
-
         caminho_temporario = (
             UPLOAD_DIR /
             (
@@ -788,7 +713,6 @@ def predict():
                 extensao
             )
         )
-
 
         arquivo.save(
             caminho_temporario
@@ -816,13 +740,11 @@ def predict():
             )[0]
         )
 
-
         probabilidades_modelo = (
             modelo.predict_proba(
                 imagem
             )[0]
         )
-
 
         if predicao not in id_to_class:
 
@@ -830,13 +752,11 @@ def predict():
                 f"Classe desconhecida: {predicao}"
             )
 
-
         classe_original = (
             id_to_class[
                 predicao
             ]
         )
-
 
         classe_resultado = (
             nome_amigavel(
@@ -851,7 +771,6 @@ def predict():
 
         probabilidades = {}
 
-
         for (
             classe_id,
             probabilidade
@@ -864,11 +783,9 @@ def predict():
                 classe_id
             )
 
-
             if classe_id not in id_to_class:
 
                 continue
-
 
             classe_interna = (
                 id_to_class[
@@ -876,13 +793,11 @@ def predict():
                 ]
             )
 
-
             classe_exibicao = (
                 nome_amigavel(
                     classe_interna
                 )
             )
-
 
             probabilidades[
                 classe_exibicao
@@ -894,7 +809,6 @@ def predict():
                 100,
                 2
             )
-
 
         probabilidades = dict(
             sorted(
@@ -916,13 +830,11 @@ def predict():
             in modelo.classes_
         ]
 
-
         posicao = (
             classes_modelo.index(
                 predicao
             )
         )
-
 
         confianca = round(
             float(
@@ -945,24 +857,20 @@ def predict():
             {}
         )
 
-
         divisao = dataset.get(
             "Divisao dos Dados",
             {}
         )
-
 
         total_amostras = dataset.get(
             "Total de Amostras",
             "Não informado"
         )
 
-
         treino_dados = divisao.get(
             "Treino",
             {}
         )
-
 
         validacao_dados = divisao.get(
             "Validacao",
@@ -972,12 +880,10 @@ def predict():
             )
         )
 
-
         teste_dados = divisao.get(
             "Teste",
             {}
         )
-
 
         treino_quantidade = (
             treino_dados.get(
@@ -991,7 +897,6 @@ def predict():
             else treino_dados
         )
 
-
         treino_percentual = (
             treino_dados.get(
                 "Percentual",
@@ -1003,7 +908,6 @@ def predict():
             )
             else "Não informado"
         )
-
 
         validacao_quantidade = (
             validacao_dados.get(
@@ -1017,7 +921,6 @@ def predict():
             else validacao_dados
         )
 
-
         validacao_percentual = (
             validacao_dados.get(
                 "Percentual",
@@ -1030,7 +933,6 @@ def predict():
             else "Não informado"
         )
 
-
         teste_quantidade = (
             teste_dados.get(
                 "Quantidade",
@@ -1042,7 +944,6 @@ def predict():
             )
             else teste_dados
         )
-
 
         teste_percentual = (
             teste_dados.get(
@@ -1077,13 +978,11 @@ def predict():
             )
         )
 
-
         precision = formatar_percentual(
             resultado_teste.get(
                 "Precision"
             )
         )
-
 
         recall = formatar_percentual(
             resultado_teste.get(
@@ -1091,13 +990,11 @@ def predict():
             )
         )
 
-
         f1_score = formatar_percentual(
             resultado_teste.get(
                 "F1-Score"
             )
         )
-
 
         balanced_accuracy = (
             formatar_percentual(
@@ -1107,20 +1004,17 @@ def predict():
             )
         )
 
-
         mcc = formatar_decimal(
             resultado_teste.get(
                 "MCC"
             )
         )
 
-
         cohen_kappa = formatar_decimal(
             resultado_teste.get(
                 "Cohen's Kappa"
             )
         )
-
 
         mean_auc = formatar_decimal(
             resultado_teste.get(
@@ -1138,15 +1032,12 @@ def predict():
             {}
         )
 
-
         auc_bruto = resultado_teste.get(
             "AUC por Classe",
             {}
         )
 
-
         metricas_por_classe = {}
-
 
         for (
             classe_interna,
@@ -1157,11 +1048,9 @@ def predict():
                 classe_interna
             )
 
-
             auc_valor = auc_bruto.get(
                 classe_interna
             )
-
 
             metricas_por_classe[
                 classe_exibicao
@@ -1197,6 +1086,55 @@ def predict():
 
 
         # ====================================================
+        # INTERPRETAÇÃO DA MATRIZ DE CONFUSÃO
+        # USA A CLASSE ESCOLHIDA PELO MODELO
+        # ====================================================
+
+        dados_classe_escolhida = (
+            metricas_brutas.get(
+                classe_original,
+                {}
+            )
+        )
+
+        interpretacao_matriz = {
+
+            "verdadeiros_positivos":
+                int(
+                    dados_classe_escolhida.get(
+                        "TP",
+                        0
+                    )
+                ),
+
+            "falsos_negativos":
+                int(
+                    dados_classe_escolhida.get(
+                        "FN",
+                        0
+                    )
+                ),
+
+            "falsos_positivos":
+                int(
+                    dados_classe_escolhida.get(
+                        "FP",
+                        0
+                    )
+                ),
+
+            "verdadeiros_negativos":
+                int(
+                    dados_classe_escolhida.get(
+                        "TN",
+                        0
+                    )
+                )
+
+        }
+
+
+        # ====================================================
         # GRÁFICOS
         # ====================================================
 
@@ -1207,14 +1145,12 @@ def predict():
             )
         )
 
-
         curvas_roc = resultado_teste.get(
             "Curvas ROC",
             resultado_teste.get(
                 "ROC"
             )
         )
-
 
         classes_grafico = [
 
@@ -1231,14 +1167,12 @@ def predict():
 
         ]
 
-
         grafico_matriz_confusao = (
             gerar_grafico_matriz_confusao(
                 matriz_confusao,
                 classes_grafico
             )
         )
-
 
         grafico_curva_roc = (
             gerar_grafico_curva_roc(
@@ -1296,6 +1230,9 @@ def predict():
 
             grafico_matriz_confusao=
                 grafico_matriz_confusao,
+
+            interpretacao_matriz=
+                interpretacao_matriz,
 
             grafico_curva_roc=
                 grafico_curva_roc,
@@ -1358,7 +1295,6 @@ def predict():
             type(erro).__name__,
             erro
         )
-
 
         return render_template(
             "index.html",
