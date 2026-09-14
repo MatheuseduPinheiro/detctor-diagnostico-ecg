@@ -195,6 +195,41 @@ def processar_imagem(
 
 
 # ============================================================
+# IMAGEM ORIGINAL -> BASE64
+# ============================================================
+
+def imagem_original_para_base64(
+    caminho,
+    extensao
+):
+
+    with open(
+        caminho,
+        "rb"
+    ) as arquivo_imagem:
+
+        dados = base64.b64encode(
+            arquivo_imagem.read()
+        ).decode(
+            "utf-8"
+        )
+
+    if extensao == ".png":
+
+        mime_type = "image/png"
+
+    else:
+
+        mime_type = "image/jpeg"
+
+    return (
+        f"data:{mime_type};base64,"
+        +
+        dados
+    )
+
+
+# ============================================================
 # FORMATA PORCENTAGEM
 # ============================================================
 
@@ -720,6 +755,18 @@ def predict():
 
 
         # ====================================================
+        # IMAGEM ORIGINAL PARA EXIBIÇÃO NO RESULTADO
+        # ====================================================
+
+        imagem_enviada = (
+            imagem_original_para_base64(
+                caminho_temporario,
+                extensao
+            )
+        )
+
+
+        # ====================================================
         # PROCESSAMENTO
         # ====================================================
 
@@ -1189,6 +1236,17 @@ def predict():
 
             "resultados.html",
 
+            # ------------------------------------------------
+            # IMAGEM ORIGINAL
+            # ------------------------------------------------
+
+            imagem_enviada=
+                imagem_enviada,
+
+            # ------------------------------------------------
+            # CLASSIFICAÇÃO
+            # ------------------------------------------------
+
             classe=
                 classe_resultado,
 
@@ -1200,6 +1258,10 @@ def predict():
 
             probabilidades=
                 probabilidades,
+
+            # ------------------------------------------------
+            # MÉTRICAS GLOBAIS
+            # ------------------------------------------------
 
             accuracy=
                 accuracy,
@@ -1225,8 +1287,16 @@ def predict():
             mean_auc=
                 mean_auc,
 
+            # ------------------------------------------------
+            # MÉTRICAS POR CLASSE
+            # ------------------------------------------------
+
             metricas_por_classe=
                 metricas_por_classe,
+
+            # ------------------------------------------------
+            # MATRIZ DE CONFUSÃO
+            # ------------------------------------------------
 
             grafico_matriz_confusao=
                 grafico_matriz_confusao,
@@ -1234,8 +1304,16 @@ def predict():
             interpretacao_matriz=
                 interpretacao_matriz,
 
+            # ------------------------------------------------
+            # CURVA ROC
+            # ------------------------------------------------
+
             grafico_curva_roc=
                 grafico_curva_roc,
+
+            # ------------------------------------------------
+            # DATASET
+            # ------------------------------------------------
 
             total_amostras=
                 total_amostras,
@@ -1257,6 +1335,10 @@ def predict():
 
             teste_percentual=
                 teste_percentual,
+
+            # ------------------------------------------------
+            # PRÉ-PROCESSAMENTO
+            # ------------------------------------------------
 
             image_width=
                 image_size[0],

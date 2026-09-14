@@ -10,11 +10,6 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <!-- ROBOTO -->
-    <link
-        rel="stylesheet"
-    >
-
     <!-- FAVICON -->
     <link
         rel="icon"
@@ -109,6 +104,41 @@
     >
 
         <div class="container">
+
+
+            <!-- =====================================================
+                 ECG ANALISADO
+            ====================================================== -->
+
+            <section
+                id="secaoImagemAnalisada"
+                class="card card-ecg-analisado"
+            >
+
+                <h2 class="card-titulo">
+                    ECG analisado
+                </h2>
+
+                <p class="card-descricao">
+                    Imagem submetida à classificação pelo modelo.
+                </p>
+
+                {% if imagem_enviada %}
+
+                    <div class="ecg-analisado-container">
+
+                        <img
+                            id="imagemECGAnalisada"
+                            src="{{ imagem_enviada }}"
+                            alt="Imagem de ECG analisada"
+                            class="ecg-analisado-imagem"
+                        >
+
+                    </div>
+
+                {% endif %}
+
+            </section>
 
 
             <!-- =====================================================
@@ -862,7 +892,11 @@
                 </p>
 
                 <p class="aviso-clinico-texto">
-                    O modelo foi avaliado utilizando o conjunto de teste proveniente do ECG Images Dataset of Cardiac Patients. Não foi realizada validação externa em um conjunto de dados independente.</p>
+                    O modelo foi avaliado utilizando o conjunto de teste
+                    proveniente do ECG Images Dataset of Cardiac Patients.
+                    Não foi realizada validação externa em um conjunto de
+                    dados independente.
+                </p>
 
             </section>
 

@@ -193,6 +193,31 @@ body {
 }
 
 
+/* =========================================================
+   ECG ANALISADO
+========================================================= */
+
+.card-ecg-analisado {
+    margin-bottom: 24px;
+}
+
+.ecg-analisado-container {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.ecg-analisado-imagem {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+
 /* ============================================================
    CONTEÚDO PRINCIPAL
 ============================================================ */
