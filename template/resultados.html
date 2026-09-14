@@ -238,6 +238,140 @@
 
 
             <!-- =====================================================
+                 INCERTEZA DA PREDIÇÃO
+            ====================================================== -->
+
+            {% if incerteza_predicao %}
+
+            <section
+                id="secaoIncertezaPredicao"
+                class="card card-incerteza-predicao"
+            >
+
+                <h2 class="card-titulo">
+                    Incerteza da predição
+                </h2>
+
+                <p class="card-descricao">
+                    Estimativa da variação da probabilidade da classe prevista
+                    a partir dos modelos utilizados na análise de incerteza.
+                </p>
+
+
+                <div class="metricas-grid">
+
+
+                    <div class="metrica-global-item">
+
+                        <span class="metrica-global-label">
+                            Probabilidade média da classe prevista
+                        </span>
+
+                        <strong class="metrica-global-valor">
+                            {{ "%.2f"|format(incerteza_predicao["probabilidade_media"]) }}%
+                        </strong>
+
+                        <p class="metrica-global-descricao">
+                            {{ incerteza_predicao["explicacao_probabilidade_media"] }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="metrica-global-item">
+
+                        <span class="metrica-global-label">
+                            Desvio-padrão
+                        </span>
+
+                        <strong class="metrica-global-valor">
+                            {{ "%.2f"|format(incerteza_predicao["desvio_padrao"]) }}%
+                        </strong>
+
+                        <p class="metrica-global-descricao">
+                            {{ incerteza_predicao["explicacao_desvio_padrao"] }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="metrica-global-item">
+
+                        <span class="metrica-global-label">
+                            Intervalo de confiança de 95%
+                        </span>
+
+                        <strong class="metrica-global-valor">
+                            {{ "%.2f"|format(incerteza_predicao["intervalo_inferior"]) }}%
+                            –
+                            {{ "%.2f"|format(incerteza_predicao["intervalo_superior"]) }}%
+                        </strong>
+
+                        <p class="metrica-global-descricao">
+                            {{ incerteza_predicao["explicacao_intervalo_confianca"] }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="metrica-global-item">
+
+                        <span class="metrica-global-label">
+                            Número de execuções
+                        </span>
+
+                        <strong class="metrica-global-valor">
+                            {{ incerteza_predicao["numero_execucoes"] }}
+                        </strong>
+
+                        <p class="metrica-global-descricao">
+                            {{ incerteza_predicao["explicacao_numero_execucoes"] }}
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="aviso-clinico">
+
+                    <strong class="aviso-clinico-titulo">
+                        Como interpretar estes valores?
+                    </strong>
+
+                    <p class="aviso-clinico-texto">
+                        A probabilidade média representa a média das probabilidades
+                        atribuídas à classe prevista ao longo das execuções utilizadas
+                        na análise de incerteza.
+                    </p>
+
+                    <p class="aviso-clinico-texto">
+                        O desvio-padrão mostra quanto essas probabilidades variaram.
+                        Valores menores indicam maior estabilidade entre as execuções,
+                        enquanto valores maiores indicam maior variação.
+                    </p>
+
+                    <p class="aviso-clinico-texto">
+                        O intervalo de confiança de 95% expressa a incerteza em torno
+                        da probabilidade média estimada. Ele não representa a chance
+                        de a classificação clínica estar correta.
+                    </p>
+
+                    <p class="aviso-clinico-texto">
+                        O número de execuções informa quantos modelos ou reamostragens
+                        foram utilizados para calcular a média, o desvio-padrão e o
+                        intervalo apresentado.
+                    </p>
+
+                </div>
+
+            </section>
+
+            {% endif %}
+
+
+            <!-- =====================================================
                  MÉTRICAS GLOBAIS
             ====================================================== -->
 

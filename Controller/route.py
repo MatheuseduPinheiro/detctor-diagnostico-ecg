@@ -14,6 +14,7 @@ import uuid
 
 import cv2
 import joblib
+import numpy as np
 import matplotlib
 
 matplotlib.use("Agg")
@@ -130,7 +131,9 @@ def carregar_pacote():
     campos = {
         "modelo",
         "scaler",
-        "classes"
+        "classes",
+        "modelos_incerteza",
+        "configuracao_incerteza"
     }
 
     ausentes = (
@@ -280,6 +283,213 @@ def formatar_decimal(
     except Exception:
 
         return str(valor)
+
+
+# ============================================================
+# INCERTEZA DA PREDIÇÃO
+# ============================================================
+
+def calcular_incerteza_predicao(
+    modelos_incerteza,
+    imagem,
+    classe_predita,
+    configuracao_incerteza
+):
+
+    if not modelos_incerteza:
+
+        raise ValueError(
+            "Nenhum modelo de incerteza foi encontrado no arquivo PKL."
+        )
+
+    probabilidades_classe = []
+
+    for numero_modelo, modelo_incerteza in enumerate(
+        modelos_incerteza,
+        start=1
+    ):
+
+        classes_modelo_incerteza = [
+            int(classe)
+            for classe
+            in modelo_incerteza.classes_
+        ]
+
+        if classe_predita not in classes_modelo_incerteza:
+
+            raise ValueError(
+                "A classe prevista pelo modelo principal "
+                f"({classe_predita}) não foi encontrada no modelo "
+                f"de incerteza número {numero_modelo}."
+            )
+
+        posicao_classe = (
+            classes_modelo_incerteza.index(
+                classe_predita
+            )
+        )
+
+        probabilidades_modelo = (
+            modelo_incerteza.predict_proba(
+                imagem
+            )[0]
+        )
+
+        probabilidades_classe.append(
+            float(
+                probabilidades_modelo[
+                    posicao_classe
+                ]
+            )
+        )
+
+    probabilidades_classe = np.array(
+        probabilidades_classe,
+        dtype=float
+    )
+
+    numero_execucoes = int(
+        len(
+            probabilidades_classe
+        )
+    )
+
+    probabilidade_media = float(
+        np.mean(
+            probabilidades_classe
+        )
+    )
+
+    if numero_execucoes > 1:
+
+        desvio_padrao = float(
+            np.std(
+                probabilidades_classe,
+                ddof=1
+            )
+        )
+
+    else:
+
+        desvio_padrao = 0.0
+
+    erro_padrao = (
+        desvio_padrao
+        /
+        np.sqrt(
+            numero_execucoes
+        )
+    )
+
+    nivel_confianca = float(
+        configuracao_incerteza.get(
+            "nivel_confianca",
+            0.95
+        )
+    )
+
+    z_score = float(
+        configuracao_incerteza.get(
+            "z_score",
+            1.96
+        )
+    )
+
+    intervalo_inferior = float(
+        np.clip(
+            probabilidade_media
+            -
+            z_score
+            *
+            erro_padrao,
+            0.0,
+            1.0
+        )
+    )
+
+    intervalo_superior = float(
+        np.clip(
+            probabilidade_media
+            +
+            z_score
+            *
+            erro_padrao,
+            0.0,
+            1.0
+        )
+    )
+
+    metodo = configuracao_incerteza.get(
+        "metodo",
+        "Bootstrap Ensemble"
+    )
+
+    return {
+
+        "probabilidade_media":
+            round(
+                probabilidade_media * 100,
+                2
+            ),
+
+        "desvio_padrao":
+            round(
+                desvio_padrao * 100,
+                2
+            ),
+
+        "intervalo_inferior":
+            round(
+                intervalo_inferior * 100,
+                2
+            ),
+
+        "intervalo_superior":
+            round(
+                intervalo_superior * 100,
+                2
+            ),
+
+        "numero_execucoes":
+            numero_execucoes,
+
+        "nivel_confianca":
+            round(
+                nivel_confianca * 100,
+                0
+            ),
+
+        "metodo":
+            metodo,
+
+        "explicacao_probabilidade_media": (
+            "A mesma imagem de ECG é avaliada pelos modelos "
+            "gerados nas reamostragens bootstrap. Cada modelo "
+            "fornece uma probabilidade para a classe selecionada "
+            "pelo modelo principal. Este valor corresponde à média "
+            "dessas probabilidades."
+        ),
+
+        "explicacao_desvio_padrao": (
+            "Mostra quanto as probabilidades produzidas pelos modelos "
+            "variaram em torno da média. Um valor menor indica que os "
+            "modelos produziram probabilidades mais semelhantes; um "
+            "valor maior indica maior variação entre as execuções."
+        ),
+
+        "explicacao_intervalo_confianca": (
+            "Expressa a incerteza em torno da probabilidade média "
+            "estimada. O intervalo não significa que exista essa "
+            "porcentagem de chance de a classificação estar correta."
+        ),
+
+        "explicacao_numero_execucoes": (
+            "Indica quantos modelos LightGBM treinados com "
+            "reamostragens bootstrap foram utilizados para calcular "
+            "a média, o desvio-padrão e o intervalo de confiança."
+        )
+
+    }
 
 
 # ============================================================
@@ -709,6 +919,14 @@ def predict():
             "classes"
         ]
 
+        modelos_incerteza = pacote[
+            "modelos_incerteza"
+        ]
+
+        configuracao_incerteza = pacote[
+            "configuracao_incerteza"
+        ]
+
         image_size = tuple(
             pacote.get(
                 "image_size",
@@ -892,6 +1110,24 @@ def predict():
             *
             100,
             2
+        )
+
+
+        # ====================================================
+        # INCERTEZA DA PREDIÇÃO
+        # ====================================================
+
+        incerteza_predicao = (
+            calcular_incerteza_predicao(
+                modelos_incerteza=
+                    modelos_incerteza,
+                imagem=
+                    imagem,
+                classe_predita=
+                    predicao,
+                configuracao_incerteza=
+                    configuracao_incerteza
+            )
         )
 
 
@@ -1258,6 +1494,13 @@ def predict():
 
             probabilidades=
                 probabilidades,
+
+            # ------------------------------------------------
+            # INCERTEZA DA PREDIÇÃO
+            # ------------------------------------------------
+
+            incerteza_predicao=
+                incerteza_predicao,
 
             # ------------------------------------------------
             # MÉTRICAS GLOBAIS
