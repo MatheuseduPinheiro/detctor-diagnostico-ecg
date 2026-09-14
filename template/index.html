@@ -10,6 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <link
+    rel="icon"
+    type="image/png"
+    href="{{ url_for('static', filename='img/simbolo.png') }}">
+
      <link
         rel="stylesheet"
         href="{{ url_for('static', filename='app-index.css') }}"
@@ -19,43 +24,57 @@
         Classificação de ECG - LightGBM
     </title>
 
+    
+
 </head>
 
 
 <body id="paginaClassificacao" class="pagina-classificacao">
 
+<!-- =====================================================
+     CABEÇALHO / NAVEGAÇÃO
+====================================================== -->
 
-    <!-- =====================================================
-         CABEÇALHO
-    ====================================================== -->
+<header id="cabecalhoPrincipal" class="cabecalho-principal">
 
-    <header id="cabecalhoPrincipal" class="cabecalho-principal">
+    <div class="container">
 
-        <div class="container">
+        <nav class="navbar">
 
-            <div class="cabecalho-conteudo">
+            <!-- LOGO -->
+            <a class="navbar-marca">
 
-                <h1
-                    id="tituloPrincipal"
-                    class="titulo-principal"
+                <img
+                    src="{{ url_for('static', filename='img/logo.png') }}"
+                    alt="LabVis"
+                    class="navbar-logo"
                 >
-                    Classificação de ECG
-                </h1>
 
-                <p
-                    id="subtituloPrincipal"
-                    class="subtitulo-principal"
-                >
-                    Classificação de imagens de eletrocardiograma
-                    utilizando o algoritmo LightGBM.
-                </p>
+                <span class="logo-subtitulo">
+                    Laboratório de Visualização
+                </span>
+
+            </a>
+
+
+            <!-- MENU -->
+            <div class="navbar-menu">
+
+                <a href="#inicio" class="navbar-link">
+                    Início
+                </a>
+
+                <a href="#sobre" class="navbar-link">
+                    Sobre
+                </a>
 
             </div>
 
-        </div>
+        </nav>
 
-    </header>
+    </div>
 
+</header>
 
     <!-- =====================================================
          CONTEÚDO PRINCIPAL
