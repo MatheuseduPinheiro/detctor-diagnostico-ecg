@@ -5,24 +5,24 @@ from config import (
     nome_amigavel
 )
 
-from Service.preprocessing import (
+from Services.preprocessing import (
     processar_imagem
 )
 
-from Service.uncertainty import (
+from Services.uncertainty import (
     calcular_incerteza_predicao
 )
 
-from Service.metrics import (
+from Services.metrics import (
     preparar_metricas
 )
 
-from Service.plots import (
+from Services.plots import (
     gerar_grafico_matriz_confusao,
     gerar_grafico_curva_roc
 )
 
-from Service.image_service import (
+from Services.image_service import (
     imagem_original_para_base64
 )
 

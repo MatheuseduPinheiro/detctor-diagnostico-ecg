@@ -6,13 +6,13 @@ from flask import (
     url_for
 )
 
-from Service.image_service import (
+from Services.image_service import (
     extensao_permitida,
     salvar_imagem_temporaria,
     remover_imagem_temporaria
 )
 
-from Service.prediction_service import (
+from Services.prediction_service import (
     classificar_ecg
 )
 
